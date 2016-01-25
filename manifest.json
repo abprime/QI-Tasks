@@ -1,0 +1,32 @@
+{
+  "name": "Yodlee IAE-QI Tasks",
+  "manifest_version": 2,
+  "version": "0.0.1.2",
+  "description": "Helps performing QI tasks",
+  "background": {"scripts": ["js/background.js"]},
+  "icons": { 
+		"32": "img/icon32.png",
+		"48": "img/icon48.png",
+		"128": "img/icon128.png" 
+	},
+  "page_action": {
+    "default_title": "Bug Filing",
+    "default_icon": {               
+            "19": "img/icon19.png",           
+            "38": "img/icon38.png" 
+          },
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [ {
+    "js": [ "bower_components/jquery/dist/jquery.min.js","js/content_script.js"],
+    "matches": [ "https://yoshiee.yodlee.com:2443/*", "http://yoshiee.yodlee.com:2443/*"],
+    "run_at": "document_start"
+  }],
+  "permissions": [
+          "tabs",
+          "activeTab",
+          "https://blrbugzilla.yodlee.com/*",
+          "storage"
+        ],
+   "options_page": "options.html"
+}

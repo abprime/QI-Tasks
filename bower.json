@@ -1,0 +1,23 @@
+{
+  "name": "QI Tasks",
+  "description": "Store packages needed to QI tasks project",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "authors": "Abinash Panda",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.0",
+    "polymer": "Polymer/polymer#1.2.0"
+  }
+}
