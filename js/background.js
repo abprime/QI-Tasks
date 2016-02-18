@@ -36,13 +36,14 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 });
 
 function isDumpUrl(url){
-  if(url.indexOf("https://yoshiee.yodlee.com")>-1)
+  if(url.indexOf("https://yoshiee.yodlee.com")>-1 ||
+      url.indexOf("https://172.25.25.26")>-1)
     return true;
 }
 
 function createBug(url, info){
 chrome.tabs.query({active:true,currentWindow:true},function(tabs){
-      // console.log("in Tab No:"+tabs[0].id);
+       console.log("in Tab No:"+tabs[0].id);
       var index = tabs[0].index+1;
       chrome.tabs.create({index:index,url:url}, function(tab){
         chrome.tabs.executeScript(tab.id, {file:"bower_components/jquery/dist/jquery.min.js", runAt:"document_end"}, function(){
@@ -57,10 +58,10 @@ chrome.tabs.query({active:true,currentWindow:true},function(tabs){
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
   if(msg.from==="content"){
     if(msg.action==="create_bug"){
-          // console.log("Got request from content to create bug for : "+msg);
+           console.log("Got request from content to create bug for : "+msg);
           chrome.storage.local.get('templates',function(results){
             results['templates'].forEach(function(template){
-              // console.log((template["name"]==msg.bugType)+"---"+template["name"]+"=="+msg.bugType);
+               console.log((template["name"]==msg.bugType)+"---"+template["name"]+"=="+msg.bugType);
               if(template["name"]==msg.info.bugType){
                 createBug(template["url"],msg.info);
               }

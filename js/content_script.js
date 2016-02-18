@@ -7,8 +7,10 @@ var Begn=0, End=1;
 var info = null;
 var queryInfo = {active:true, currentWindow:true};
 
+//alert("content injected");
+
 function isInArray(value, array){
-  // console.log(value);
+   console.log(value);
   return array.indexOf(parseInt(value))>-1;
 }
 
@@ -17,7 +19,7 @@ function getErrorType(info){
     var errors = results['errors'];
     return errors.some(function(error){
     if(isInArray(info['errorCode'], error.codes)){ 
-      // console.log(error.name);
+       console.log(error.name);
       info["errorType"]=error.name;
       return true;
     }
@@ -26,7 +28,7 @@ function getErrorType(info){
 }
 
 function getNodeValueofTag(xmlDOC, tagName){
-  // console.log("tag : "+tagName);
+   console.log("tag : "+tagName);
   return xmlDOC.getElementsByTagName(tagName)[0].childNodes[0].nodeValue;
 }
 
@@ -78,21 +80,21 @@ function getInfo(){
   var stackTrace = info["stackTrace"] =  dump.substring(dump.indexOf(exp[Begn])+exp[Begn].length,dump.indexOf(exp[End])).trim();
   info["errorDesc"] = stackTrace.substring(stackTrace.indexOf(':')+1,stackTrace.indexOf('at ')).trim().substring(0,150);
   
-  // console.log(info);
+   console.log(info);
   return info;
 }
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
   if(msg.from==="popup"){
     if(msg.action==="create_bug"){
-      // console.log("in content of tab");
+       console.log("in content of tab");
       if(info){
         sendResponse({status:"success"});
         info["url"] = msg.url;
         info.bugType=msg.bugType;
         chrome.runtime.sendMessage({from:"content",info:info,action:"create_bug"});
       }else{
-        // console.log("Failed to find info of bug");
+         console.log("Failed to find info of bug");
         sendResponse({status:"failed"});
       }
       

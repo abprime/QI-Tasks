@@ -13,7 +13,7 @@ function fill_info(info){
   // $('#cf_agents').val(info["scrptVrsn"]);
   var summary = "<TTR-";
   if(info.bugType=='TTR'){
-    summary = summary+"Alert><";
+    summary = summary+"Alert><I18N><";
   }else{
     summary = summary+"I18N><";
   }
