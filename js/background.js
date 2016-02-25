@@ -32,6 +32,12 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
   if(isDumpUrl(url)){
     // console.log("Tab id: "+tab.id+", Tab no: "+tab.index);
     chrome.pageAction.show(tab.id);
+    
+  }
+  if(isIDCDumpUrl(url)){
+    chrome.tabs.executeScript(tab.id, {file:"bower_components/jquery/dist/jquery.min.js", runAt:"document_start"},function(){
+      chrome.tabs.executeScript(tabId, {file: "js/content_script.js",runAt:'document_start'});
+    });
   }
 });
 
@@ -41,6 +47,12 @@ function isDumpUrl(url){
     return true;
 }
 
+function isIDCDumpUrl(url){
+  if(url.indexOf("https://172.25.25.26")>-1){
+    return true;
+  }
+}
+
 function createBug(url, info){
 chrome.tabs.query({active:true,currentWindow:true},function(tabs){
        console.log("in Tab No:"+tabs[0].id);
@@ -48,6 +60,7 @@ chrome.tabs.query({active:true,currentWindow:true},function(tabs){
       chrome.tabs.create({index:index,url:url}, function(tab){
         chrome.tabs.executeScript(tab.id, {file:"bower_components/jquery/dist/jquery.min.js", runAt:"document_end"}, function(){
           chrome.tabs.executeScript(tab.id, {file:"js/file_bug.js", runAt:"document_end"}, function(){
+            console.log(info);
             chrome.tabs.sendMessage(tab.id,{from:"background", action:"fill_info", info:info});
           });
         });
@@ -61,7 +74,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
            console.log("Got request from content to create bug for : "+msg);
           chrome.storage.local.get('templates',function(results){
             results['templates'].forEach(function(template){
-               console.log((template["name"]==msg.bugType)+"---"+template["name"]+"=="+msg.bugType);
+               console.log((template["name"]==msg.bugType)+"---"+template["name"]+"=="+msg.info.bugType);
               if(template["name"]==msg.info.bugType){
                 createBug(template["url"],msg.info);
               }

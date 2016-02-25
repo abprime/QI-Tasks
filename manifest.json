@@ -1,7 +1,7 @@
 {
   "name": "Yodlee IAE-QI Tasks",
   "manifest_version": 2,
-  "version": "0.0.1.3",
+  "version": "0.0.1.4",
   "description": "Helps performing QI tasks",
   "background": {"scripts": ["js/background.js"]},
   "icons": { 
@@ -26,6 +26,7 @@
           "tabs",
           "activeTab",
           "https://blrbugzilla.yodlee.com/*",
+          "https://*/",
           "storage"
         ],
    "options_page": "options.html"
