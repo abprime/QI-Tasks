@@ -26,9 +26,11 @@
       <li><a data-toggle="tab" href="#bugTemplate">Bug Templates</a></li>
       <li><a data-toggle="tab" href="#keywords">Keywords</a></li>
       <li><a data-toggle="tab" href="#ttr">TTR Mail Specific</a></li>
+      <!-- <li><a data-toggle="tab" href="#sitelist">Site List</a></li> -->
     </ul>
 
   <div class="tab-content">
+    
     <div id="display-success" class="alert alert-success ">
       <a href="#" class="close" data-dismiss="alert">&times;</a>
       <strong>Success!</strong> Your changes have been saved successfully.
@@ -43,6 +45,11 @@
          Once added to the list, you can find a button to raise bug for the added template.<br>
          Optionally you can add your <strong>Signature</strong> and add required alias to the <strong>TO</strong> and <strong>CC</strong> list in <strong>TTR Mail Specific</strong> section.<br>
          You can find all the documentations at <a>\\blr-fs\Departmental\IAE\TTR-Extension</a></p>
+		 <br>
+		 <hr>
+	  <p><h4 style="color:blue;"><strong>What's New! (Update v0.2)</strong></h4>
+	  Added template for creating meta-data change alert for UK-sites with/without the TTR.<br>
+	  Find more detailed documentations on the update at <a>\\blr-fs\Departmental\IAE\TTR-Extension</a></p>
     </div>
     
     <div id="bugTemplate" class="tab-pane fade">
@@ -65,7 +72,7 @@
                 {{#templates}}
                 <tr>
                   <td class="col-md-2">{{name}}</td>
-                  <td><textarea rows="4" class="col-md-12" readonly>{{url}}</textarea></td>
+                  <td><textarea rows="4" class="col-md-10" readonly>{{url}}</textarea></td>
                   <td class="col-md-2">
                     <button type="button" class="btn btn-primary edit-template">Edit</button>
                     <button type="button" class="btn btn-danger delete-template">Delete</button>
@@ -200,7 +207,85 @@
         </form>
       </div>
     </div>
-  
+
+    <div id="sitelist" class="tab-pane fade">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive" id="sitenames-table">
+              <table id="sitenames" class="table table-striped">
+                <thead>
+                  <tr>
+                    <td class="col-md-4"><label>Site Name</label></td>
+                    <td class="col-md-3"><label>Suminfo</label></td>
+                    <td class="col-md-3"><label>Actions</label></td>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <script id="sitename" type="text/html">
+                {{#sitenames}}
+                <tr>
+                  <td class="col-md-3">{{site}}</td>
+                  <td class="col-md-3">{{suminfo}}</td>
+                  <td class="col-md-2">
+                    <label class='control-label'><a href='#' id='remove' class='text-primary edit-sitenames' data-toggle="tooltip" title="Edit!">
+                      <span class='glyphicon glyphicon-edit'></span></a></label>&nbsp;&nbsp;
+                    <label class='control-label'><a href='#' id='remove' class='text-danger delete-sitenames' data-toggle="tooltip" title="Delete!">
+                      <span class='glyphicon glyphicon-remove'></span></a></label>
+                  </td>
+                </tr>
+                {{/sitenames}}
+              </script>
+              <button type="button" class="btn btn-primary add-sitenames">Add</button> 
+            </div>
+              <form id="addSitenames" class="form-horizontal" role="form">
+                <fieldset>
+                  <legend></legend>
+                  <input type="hidden" id="update" name="update" value="false">
+                  <div class="form-group">
+                    <label for="sName" class="col-offset-md-2 col-md-2 control-label">Site Name : </label>
+                    <div class="col-md-4">
+                      <input class="form-control" name="sName" id="sName" placeholder="Enter Site Name">
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="sInfo" class="col-offset-md-2 col-md-2 control-label">Sum Info : </label>
+                    <div class="col-md-4">
+                      <input type='number' class="form-control" name="sInfo" id="sInfo" placeholder="Enter Sum Info Id">
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tUrl" class="col-offset-md-2 col-md-2 control-label">Container : </label>
+                    <div class="col-md-4">
+            					<select class="form-control" id="sCobrnd" name="sCobrnd">
+												<option selected>Bank</option>
+												<option>Credit Card</option>
+												<option>Investment</option>
+												<option>Loan</option>
+												<option>Insurance</option>
+												<option>Mortgage</option>
+												<option>Reward</option>
+											</select>
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                  <div class="col-offset-md-4 col-md-2 text-right">
+                    <button type="button" id="cancel-sitenames" class="btn btn-default">Cancel</button>
+                    <button type="button" id="save-sitenames" class="btn btn-primary">Save</button>
+                  </div>
+                </fieldset>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
   
   

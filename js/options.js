@@ -3,6 +3,7 @@ updateTemplatesPage = function(){
   $('tbody',$('#templates')).empty();
   chrome.storage.local.get('templates', function(results){
       $('tbody',$('#templates')).append(ich.template({templates:results['templates']}));
+      
       $('.edit-template').click(function(){
         $('legend',$('#addTemplate')).text('Edit Template');
         $('#update').val('true');
@@ -15,6 +16,7 @@ updateTemplatesPage = function(){
         $('#templates-table').hide();
         $('#addTemplate').show();
       });
+      
       $('.delete-template').click(function(){
         var template = $(this).closest('tr');
         //console.log($('td:eq(0)',template).text());
@@ -29,6 +31,48 @@ updateTemplatesPage = function(){
         // //console.log('show dialog');
         deleteDialog.modal('show');
       });
+      
+  });
+};
+
+updateSiteListPage = function(){
+  $('tbody',$('#sitenames')).empty();
+  chrome.storage.local.get('sitenames', function(results){
+    $('tbody',$('#sitenames')).append(ich.sitename({sitenames:results['sitenames']}));
+
+      $('.edit-sitenames').click(function(){
+        $('legend',$('#addSitenames')).text('Edit Site with SUM_INFO');
+        $('#update',$('#addSitenames')).val('true');
+        var site = $(this).closest('tr');
+        //console.log($('td:eq(0)',site).text());
+        resetFormOptions($('#addSitenames'));
+        var siteName = $('td:eq(0)',site).text();
+        var sites = siteName.substr(0, siteName.indexOf(' - '));
+        var cobrnd = siteName.substr((siteName.indexOf(' - ')+3),siteName.length);
+        console.log('siteName:'+sites+'/cobrnd:'+cobrnd);
+        $('#sName').val(sites);
+        $('#sInfo').val($('td:eq(1)',site).text());
+        $('#sInfo').attr('readonly','');
+        $('#sCobrnd').val(cobrnd).change();
+        $('#sitenames-table').hide();
+        $('#addSitenames').show();
+      });
+    
+      $('.delete-sitenames').click(function(){
+        var template = $(this).closest('tr');
+        console.log($('td:eq(0)',template).text());
+        var deleteDialog = $('#delete-modal');
+        $('p',deleteDialog).text('Are you sure you want to delete \''+$('td:eq(0)',template).text()+'\' Site detail ?');
+        $('.btn-danger',deleteDialog).off('click').on('click',function(){
+          template.remove();
+          chrome.extension.getBackgroundPage().deleteSite($('td:eq(0)',template).text());
+          deleteDialog.modal('hide');
+          showSuccessStatus();
+        });
+        // //console.log('show dialog');
+        deleteDialog.modal('show');
+      });
+
   });
 };
 
@@ -41,6 +85,7 @@ updateTTRpage = function(){
     $('#sign').val(results['sign']);
   });
 };
+
 // i=1;
 resetFormOptions = function(form){
   $('.has-error', form).removeClass('has-error');
@@ -83,6 +128,36 @@ validateTemplateForm = function(form, fields){
   return template;
 };
 
+validateSiteForm = function(form, fields){
+  var sitename = {};
+  var _site = '';
+  $.each(fields, function(i, field){
+    console.log(field.name+"="+field.value);
+    if(!field.value){
+      var div = $('#'+field.name,form).closest('.form-group');
+      div.addClass('has-error');
+      $('.help-block', div).text($('label[for="'+field.name+'"]').text().replace(':','')+' cannot be empty');
+    }else{
+      if(field.name=='sName'){
+        //sitename.site = field.value;
+        _site = field.value;
+      }
+      if(field.name=='sInfo'){
+        sitename.suminfo = field.value;
+      }
+      if(field.name=='update'){
+        sitename.update = field.value;
+        console.log("UPDATE="+sitename.update);
+      }
+      if(field.name=='sCobrnd'){
+        sitename.site = _site + ' - ' +field.value;
+      }
+    }
+  });
+  return sitename;
+};
+
+
 validateTTRInfo = function(form, fields){
   var info = {};
   $.each(fields, function(i, field){
@@ -105,11 +180,18 @@ $(document).on("click", "#remove-btn", function(){
   $(this).parent().remove();
 });
 
+/**
+*
+*
+*/
 $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
   $("#display-success").hide();
   $('#addTemplate').hide();
+  $('#addSitenames').hide();
   updateTemplatesPage();
   updateTTRpage();
+  updateSiteListPage();
   
   $('.add-template').click(function(){
     //console.log('there in add');
@@ -122,12 +204,31 @@ $(document).ready(function(){
     $('#templates-table').hide();
     $('#addTemplate').show();
   });
-  
+
   $('#cancel').click(function(){
     updateTemplatesPage();
     $('#addTemplate').hide();
     $('#templates-table').show();
   });
+
+  $('.add-sitenames').click(function(){
+    //console.log('there in add');
+    resetFormOptions($('#addSitenames'));
+    $('legend',$('#addSitenames')).text('Add Site with SUM_INFO');
+    $('#sName').val('');
+    $('#sInfo').val('');
+    $('#sInfo').removeAttr('readonly');
+    $('#update').val('false');
+    $('#sitenames-table').hide();
+    $('#addSitenames').show();
+  });
+
+  $('#cancel-sitenames').click(function(){
+    updateSiteListPage();
+    $('#addSitenames').hide();
+    $('#sitenames-table').show();
+  });
+  
   
   
   $('#save-template').click(function(){
@@ -151,4 +252,16 @@ $(document).ready(function(){
         });
     }
   });
+  
+    $('#save-sitenames').click(function(){
+    resetFormOptions($('#addSitenames'));
+    sitename = validateSiteForm($('#addSitenames'), $('#addSitenames').serializeArray());
+    if(sitename.site && sitename.suminfo){
+        chrome.extension.getBackgroundPage().saveSite(sitename, function(){
+          showSuccessStatus();
+          $('#cancel-sitenames').click();
+        });
+    }
+  });
+
 });

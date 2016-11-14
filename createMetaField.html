@@ -1,0 +1,205 @@
+<html lang="en">
+<head>
+<title>Create MetaFiled</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap-multiselect.css" type="text/css" />
+<meta charset="utf-8">
+<style>
+body {
+	margin: 10px;
+	padding: 10px;
+}
+form {
+	padding-left: 5px;
+}
+</style>
+</head>
+<body>
+	<div id="content" class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#form" aria-controls="home" role="tab" data-toggle="tab">Form</a></li>
+					<li role="presentation"><a href="#template" aria-controls="profile" role="tab" data-toggle="tab">Template</a></li>
+				</ul>
+				<div class="tab-content">
+					<!-- @@@@@@@@@@@ Form @@@@@@@@@@@ -->
+					<div role="tabpanel" class="tab-pane active" id="form">
+						<div class="panel panel-success">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="form">
+										<div class="row">
+											<form id="META" class="form-horizontal" role="form" action="" method="get" enctype="text/plain">
+												<!-- MetaFiled Form  -->
+												<div class="col-md-6">
+													<legend>Create MetaFiled</legend>
+													<fieldset>
+													<div class="form-group">
+															<div class="col-md-12">
+																<label for="to" class="control-label">To : </label> 
+																<input id="to" class="form-control"> 
+																<span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="cc" class="control-label">CC : </label> <input id="cc" class="form-control"> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="bcc" class="control-label">BCC : </label> <input id="bcc" class="form-control"> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="subject" class="control-label">Subject : </label> <input id="subject" class="form-control"> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="sitenames" class="control-label">SITE NAME (Display Name) :</label> 
+																<select class="form-control" id="sitenames" multiple="multiple">
+																</select> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="panel panel-info">
+															<div class="panel-body">
+																<div class="form-group">
+    																  <div class="col-md-offset-10 col-md-2">
+    																			<button type="button" id="add-fieldBox" class="btn btn-success btn-sm">
+    																				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+    																			</button>
+    																	</div>
+																	  </div>
+																<div class="form-group">	
+																  <div id="fieldBox"></div>
+															</div>
+														</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="summary-meta" class="control-label">SUMMARY OF CHANGE :</label>
+																<textarea id="summary-meta" style="resize: vertical" rows="2" class="form-control"></textarea>
+																<span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="sDate-meta" class="control-label">START TIME :</label> 
+																<input id="sDate-meta" class="form-control"> 
+																<span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="agentName-meta" class="control-label">Agent Name(s) :</label> 
+																<input id="agentName-meta" class="form-control"> 
+																<span	class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="sumInfo-meta" class="control-label">SUM INFO(s) :</label> 
+																<input id="sumInfo-meta"  class="form-control"> 
+																<span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="bugId-meta" class="control-label">BUG ID :</label> 
+																<input id="bugId-meta" value="---" class="form-control"> 
+																<span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="status-meta" class="control-label">CURRENT STATUS :</label> 
+																<select class="form-control" id="status-meta">
+																	<option selected>WIP</option>
+																	<option>MONITORING</option>
+																	<option>RESOLVED</option>
+																	<option>FIXED</option>
+																	<option>CLOSED</option>
+																</select> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="eta-meta" class="control-label">ETA :</label> 
+																<input id="eta-meta" class="form-control"> 
+																<span class="help-block"></span>
+															</div>
+														</div>
+													<div class="form-group">
+															<div class="col-md-12">
+																<label for="stacktrace" class="control-label">Error Stack Trace :</label>
+																<textarea id="stacktrace" style="resize: vertical" rows="10" class="form-control"></textarea>
+																<span class="help-block"></span>
+															</div>
+														</div>
+													</fieldset>
+												</div>
+												<legend>&nbsp;</legend>
+												<div class="col-md-offset-5 col-md-5">
+													<button type="button" id="create-metamail" class="btn btn-primary">Create Mail</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- @@@@@@@@@@@ Template @@@@@@@@@@@ -->
+					<div role="tabpanel" class="tab-pane" id="template">
+						<div class="panel panel-success">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="row">
+										<iframe id="TTRbody" src="ttr-metafieldTemplate.html" class="col-md-12" style="height: 100vh; border: none" frameborder="1"> </iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END -->
+				</div>	
+				<!--  @@@@@@@@@@@@@@@@@@ Warning alert message @@@@@@@@@@@@@@@@@@ -->
+				<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+					<div class="modal-content">
+					  <div class="modal-body">
+						<h4><i><p id="mymodal-content" align='center'></p></i></h4>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					  </div>
+					</div>
+				  </div>
+				</div><!-- /.modal -->
+				
+			</div>
+		</div>
+	</div>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="js/createMetaField.js"></script>
+	<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/icanhaz/ICanHaz.min.js"></script>
+	<script src="bootstrap-3.3.6-dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(function() {
+			$('#sitenames').multiselect({
+				includeSelectAllOption : true
+			});
+		});
+		$('#eta-meta').datepicker({
+			format: 'mm/dd/yyyy',
+			startDate: '-3d'
+		});
+	</script>
+</body>
+</html>

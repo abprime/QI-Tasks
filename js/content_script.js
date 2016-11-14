@@ -27,6 +27,35 @@ function getErrorType(info){
   });
 }
 
+function isMetaChangeSuminfo(info){
+  return chrome.storage.local.get('sitenames', function(results){
+    var suminfos = results['suminfos'];
+    return suminfos.some(function(suminfo){
+    if(info['suminfo']===suminfo){ 
+       //console.log(error.name);
+      info["isMetaChange"]=true;
+      return true;
+    }
+    return false;
+    });
+  });
+}
+
+
+function isUKSite(info) {
+  return chrome.storage.local.get('sitenames', function(results){
+    var sitesList = results['sitenames'];
+    return sitesList.some(function(_site){
+    if(isInArray(info['sumInfo'], _site.suminfo)){
+      // console.log("======> Inside the TTR_bug/isUKSite= SUCCESS=======>"+info['sumInfo']);  
+      info["isUKSite"]=_site.suminfo;
+      return true;
+    }
+    });
+  });
+}
+
+
 function getNodeValueofTag(xmlDOC, tagName){
    //console.log("tag : "+tagName);
   return xmlDOC.getElementsByTagName(tagName)[0].childNodes[0].nodeValue;
@@ -70,6 +99,7 @@ function getInfo(){
   var request = dump.substring(dump.indexOf(rqst[Begn])+rqst[Begn].length,dump.indexOf(rqst[End])).trim();
   var rqstXML = parser.parseFromString(request,'text/xml');
   info["suminfo"] = getNodeValueofTag(rqstXML,"sumInfoId");
+  info["sumInfo"] = getNodeValueofTag(rqstXML,"sumInfoId");
   
   var response = dump.substring(dump.indexOf(rpsn[Begn])+rpsn[Begn].length,dump.indexOf(rpsn[End])).trim();
   var rpsnXML = parser.parseFromString(response,'text/xml');
@@ -80,11 +110,13 @@ function getInfo(){
   info["errorDesc"] = stackTrace.substring(stackTrace.indexOf(':')+1,stackTrace.indexOf('at ')).trim().substring(0,150);
   
   getErrorType(info);
-   //console.log(info);
+  isUKSite(info);
+  
   return info;
 }
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
+  console.log("==> CONTENT Clicked on: "+msg.action);
   if(msg.from==="popup"){
     if(msg.action==="create_bug"){
        //console.log("in content of tab");
@@ -98,7 +130,17 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
         //console.log("Failed to find info of bug");
         sendResponse({status:"failed"});
       }
-      
+    }else if(msg.action==="create_metafield"){
+      //console.log("==> CONTENT Clicked on: "+msg.action);
+      var _isSite = ttrinfo.isUKSite;
+      if(ttrinfo && !(_isSite === undefined || _isSite === null)){
+        sendResponse({status:"success"});
+        //console.log("======> Inside the content/SUBMIT= YESSSSSS=>"+_isSite);        
+        chrome.runtime.sendMessage({from:"content",info:ttrinfo,action:"create_metafield"});
+      }else{
+        sendResponse({status:"failed"});
+      }
+        
     }
   }
 });

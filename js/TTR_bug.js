@@ -1,23 +1,29 @@
 var info;
+var suminfolist = [];
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
   if(msg.from==="bugzilla_popup"){
     if(msg.action==="create_TTR"){
-       //console.log("in content of tab");
       if(info){
         sendResponse({status:"success"});
         chrome.runtime.sendMessage({from:"TTR_bug",info:info,action:"create_TTR"});
       }else{
-         //console.log("Failed to find info of bug");
         sendResponse({status:"failed"});
       }
-      
+    }else if(msg.action==="create_metafield"){
+      var _isSite = info.isUKSite;
+      //console.log("======> Inside the TTR_bug/SUBMIT="+_isSite);
+      if(info && !(_isSite === undefined || _isSite === null)){
+        sendResponse({status:"success"});
+        chrome.runtime.sendMessage({from:"TTR_bug",info:info,action:"create_metafield"});
+      }else{
+        sendResponse({status:"failed"});
+      }
     }
   }
 });
 
 function isInArray(value, array){
-   //console.log(value);
   return array.indexOf(parseInt(value))>-1;
 }
 
@@ -26,13 +32,26 @@ function getErrorType(info){
     var errors = results['errors'];
     return errors.some(function(error){
     if(isInArray(info['errorCode'], error.codes)){ 
-       //console.log(error.name);
       info["errorType"]=error.name;
       return true;
     }
     });
   });
 }
+
+function isUKSite(info) {
+  return chrome.storage.local.get('sitenames', function(results){
+    var sitesList = results['sitenames'];
+    return sitesList.some(function(_site){
+    if(isInArray(info['sumInfo'], _site.suminfo)){
+      // console.log("======> Inside the TTR_bug/isUKSite= SUCCESS=======>"+info['sumInfo']);  
+      info["isUKSite"]=_site.suminfo;
+      return true;
+    }
+    });
+  });
+}
+
 
 function getPosition(str, m, i) {
    return str.split(m, i).join(m).length;
@@ -41,14 +60,18 @@ function getPosition(str, m, i) {
 function getTTRInfo(){
   var info = {};
   keyword = $('#keywords').val();
-  if((keyword.indexOf('TTR_ALERT')<=-1)){
-    return;
-  }
-  
+  var sum_info = $('#cf_suminfo').val();
+
+    if((keyword.indexOf('TTR_ALERT')<=-1)){
+      return;
+    }
+
   info.agent = $('#cf_agents').val();
   info.sumInfo = $('#cf_suminfo').val();
   info.errorCode = $('#cf_errorcode').val();
+  info.assigne = $('#bz_assignee_edit_container').closest('.fn').text();
   getErrorType(info);
+  isUKSite(info);
   
   stackTrace = $('#comment_text_0').text();
   info.stackTrace = stackTrace.substring(stackTrace.indexOf("Stack Trace:")+"Stack Trace:".length+1);
@@ -61,10 +84,10 @@ function getTTRInfo(){
   return info;
 }
 
+
 $(document).ready(function(){
+  //console.log("======> Inside the TTR_bug/document-ready.");
   info = getTTRInfo();
   var i = Math.floor((Math.random() * 10) + 1);
-  console.log('in script '+i);
-  console.log(info);
   chrome.runtime.sendMessage({from:'TTR_bug',action:'ready'});
 });
