@@ -1,0 +1,13 @@
+body { padding-top: 70px; }
+.tab-content {
+    margin-top: 20px;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #222222;
+  cursor: default;
+  background-color: #abcdef;
+  border: 1px solid #fedcba;
+  border-bottom-color: transparent;
+  }

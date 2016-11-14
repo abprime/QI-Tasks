@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="css/options.css">
+    <meta charset="utf-8"> 
+  </head>
+  
+  <body>
+      
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Options</a>
+      </div>
+    </div>
+  </div>
+    
+  <div id="content" class="container">
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+      <li><a data-toggle="tab" href="#bugTemplate">Bug Templates</a></li>
+      <li><a data-toggle="tab" href="#keywords">Keywords</a></li>
+      <li><a data-toggle="tab" href="#ttr">TTR Mail Specific</a></li>
+    </ul>
+
+  <div class="tab-content">
+    <div id="display-success" class="alert alert-success ">
+      <a href="#" class="close" data-dismiss="alert">&times;</a>
+      <strong>Success!</strong> Your changes have been saved successfully.
+    </div>
+    
+    <div id="home" class="tab-pane fade in active">
+      <h3>Instructions to use this Extension</h3>
+      <h5 style="color:red;"><strong>Note:</strong>&nbsp;<em>Weekend shift folks</em> need not do any changes and use this extension as is. Optionally add your Signature as instructed below.</h5>
+      <p>Here you can find options for this extension.<br>
+         Create a custom <strong>Bugzilla Template</strong> using the <strong>Keywords</strong> given here.<br>
+         Add the template to the Bug Template List.<br>
+         Once added to the list, you can find a button to raise bug for the added template.<br>
+         Optionally you can add your <strong>Signature</strong> and add required alias to the <strong>TO</strong> and <strong>CC</strong> list in <strong>TTR Mail Specific</strong> section.<br>
+         You can find all the documentations at <a>\\blr-fs\Departmental\IAE\TTR-Extension</a></p>
+    </div>
+    
+    <div id="bugTemplate" class="tab-pane fade">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive" id="templates-table">
+              <table id="templates" class="table table-striped">
+                <thead>
+                  <tr>
+                    <td><label>Template Name</label></td>
+                    <td><label>Template URL</label></td>
+                    <td><label>Actions</label></td>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <script id="template" type="text/html">
+                {{#templates}}
+                <tr>
+                  <td class="col-md-2">{{name}}</td>
+                  <td><textarea rows="4" class="col-md-12" readonly>{{url}}</textarea></td>
+                  <td class="col-md-2">
+                    <button type="button" class="btn btn-primary edit-template">Edit</button>
+                    <button type="button" class="btn btn-danger delete-template">Delete</button>
+                  </td>
+                </tr>
+                {{/templates}}
+              </script>
+              <button type="button" class="btn btn-primary add-template">Add</button> 
+            </div>
+            
+              <form id="addTemplate" class="form-horizontal" role="form">
+                <fieldset>
+                  <legend></legend>
+                  <input type="hidden" id="update" name="update" value="false">
+                  <div class="form-group">
+                    <label for="tName" class="col-offset-md-2 col-md-2 control-label">Template Name:</label>
+                    <div class="col-md-4">
+                      <input class="form-control" name="tName" id="tName" name="tName" placeholder="Enter Template Name">
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="tUrl" class="col-offset-md-2 col-md-2 control-label">Template URL:</label>
+                    <div class="col-md-8">
+                      <textarea class="form-control" rows="4" name="tUrl" id="tUrl" name="tUrl" placeholder="Enter a Bug Template URL"></textarea>
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                  <div class="col-offset-md-4 col-md-2 text-right">
+                    <button type="button" id="cancel" class="btn btn-default">Cancel</button>
+                    <button type="button" id="save-template" class="btn btn-primary">Save</button>
+                  </div>
+                </fieldset>
+              </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="keywords" class="tab-pane fade">
+      <div class="container ">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="agentname">Agent:</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="agentname" placeholder="AgentName" value="AgentName" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="agentversion">Agent Version:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="agentversion" placeholder="scrptVrsn" value="scrptVrsn" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="csid">Sum Info:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="csid" placeholder="CSID" value="CSID" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Error Code:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="status" placeholder="ErrorCode" value="ErrorCode" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="errtype">Error Type:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="errtype" placeholder="ErrorType" value="ErrorType" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="desc">Short Description:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="desc" placeholder="ErrorDesc" value="ErrorDesc" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="stackTrace">Exception Stack Trace:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="stackTrace" placeholder="stackTrace" value="stackTrace" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="url">Dump URL:</label>
+            <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="url" placeholder="dumpurl" value="dumpurl" readonly>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div id="ttr" class="tab-pane fade">
+      <div class="container ">
+        <form class="form-horizontal" id="ttrInfo" role="form">
+          <fieldset>
+            <legend>TTR Info</legend>
+            <div class="form-group">
+              <label class="control-label col-sm-1" for="to">To:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="to" name="to" placeholder="Enter Email Ids" >
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-1" for="cc">CC:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" id="cc" name="cc" placeholder="Enter Email Ids" >
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-1" for="bcc">BCC:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" id="bcc" name="bcc" placeholder="Enter Email Ids" >
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-1" for="sign">Signature:</label>
+              <div class="col-sm-6"> 
+                <textarea type="text" class="form-control" id="sign" name="sign" rows="4" placeholder="Enter your Signature"></textarea>
+              </div>
+            </div>
+            <div class="col-md-2 text-right">
+                <button type="button" id="save-ttr-info" class="btn btn-primary">Save</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  
+  </div>
+  
+  
+  <div id="delete-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Bug Template</h4>
+        </div>
+        <div class="modal-body">
+          <p></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  </div>
+  
+  
+  
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+  <script src="js/options.js"></script>
+  <script src="bower_components/icanhaz/ICanHaz.min.js"></script>
+  
+  </body>
+</html>

@@ -4,13 +4,13 @@ var rpsn = ['##@@BeginResponseXML', '##@@EndResponseXML'];
 var exp = ['##@@BeginException', '##@@EndException'];
 var xml = ['[XML BEGIN]','[XML END]'];
 var Begn=0, End=1;
-var info = null;
+var ttrinfo = null;
 var queryInfo = {active:true, currentWindow:true};
 
 //alert("content injected");
 
 function isInArray(value, array){
-   console.log(value);
+   //console.log(value);
   return array.indexOf(parseInt(value))>-1;
 }
 
@@ -19,7 +19,7 @@ function getErrorType(info){
     var errors = results['errors'];
     return errors.some(function(error){
     if(isInArray(info['errorCode'], error.codes)){ 
-       console.log(error.name);
+       //console.log(error.name);
       info["errorType"]=error.name;
       return true;
     }
@@ -28,7 +28,7 @@ function getErrorType(info){
 }
 
 function getNodeValueofTag(xmlDOC, tagName){
-   console.log("tag : "+tagName);
+   //console.log("tag : "+tagName);
   return xmlDOC.getElementsByTagName(tagName)[0].childNodes[0].nodeValue;
 }
 
@@ -49,7 +49,7 @@ function getElement(xpath,n){
 function getDumpText(){
   var dumptxt = getElement('//pre[contains(text(),"'+rqst[Begn]+'")]',1).innerText;
   if(dumptxt.indexOf(rpsn[Begn])<0){
-    var rpsnXML = getElement('//td[contains(text(),"<status>")]',1).innerText;
+    var rpsnXML = getElement('//td[contains(text(),"<status>")]',-1).innerText;
     rpsnXML = rpsnXML.replace(xml[Begn], rpsn[Begn]);
     rpsnXML = rpsnXML.replace(xml[End], rpsn[End]);
     dumptxt = dumptxt+rpsnXML;
@@ -74,27 +74,28 @@ function getInfo(){
   var response = dump.substring(dump.indexOf(rpsn[Begn])+rpsn[Begn].length,dump.indexOf(rpsn[End])).trim();
   var rpsnXML = parser.parseFromString(response,'text/xml');
   info["errorCode"] = getNodeValueofTag(rpsnXML,"status").trim();
-  getErrorType(info);
   info["scrptVrsn"] = getNodeValueofTag(rpsnXML,"scriptVersion");
   
   var stackTrace = info["stackTrace"] =  dump.substring(dump.indexOf(exp[Begn])+exp[Begn].length,dump.indexOf(exp[End])).trim();
   info["errorDesc"] = stackTrace.substring(stackTrace.indexOf(':')+1,stackTrace.indexOf('at ')).trim().substring(0,150);
   
-   console.log(info);
+  getErrorType(info);
+   //console.log(info);
   return info;
 }
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
   if(msg.from==="popup"){
     if(msg.action==="create_bug"){
-       console.log("in content of tab");
-      if(info){
+       //console.log("in content of tab");
+      if(ttrinfo){
         sendResponse({status:"success"});
-        info["url"] = msg.url;
-        info.bugType=msg.bugType;
-        chrome.runtime.sendMessage({from:"content",info:info,action:"create_bug"});
+        ttrinfo["url"] = msg.url;
+        ttrinfo.bugType=msg.bugType;
+        chrome.runtime.sendMessage({from:"content",info:ttrinfo,action:"create_bug"});
       }else{
-         console.log("Failed to find info of bug");
+         ttrinfo = getInfo();
+        //console.log("Failed to find info of bug");
         sendResponse({status:"failed"});
       }
       
@@ -103,7 +104,8 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
 });
 
 document.addEventListener('DOMContentLoaded',function(){
-  info = getInfo();
+  // alert('content script');
+  ttrinfo = getInfo();
   chrome.runtime.sendMessage({from:'content',action:'ready'});
 });
 

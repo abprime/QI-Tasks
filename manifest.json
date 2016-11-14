@@ -1,7 +1,7 @@
 {
   "name": "Yodlee IAE-QI Tasks",
   "manifest_version": 2,
-  "version": "0.0.1.4",
+  "version": "0.0.1.15",
   "description": "Helps performing QI tasks",
   "background": {"scripts": ["js/background.js"]},
   "icons": { 
@@ -29,5 +29,6 @@
           "https://*/",
           "storage"
         ],
-   "options_page": "options.html"
+  "update_url": "file://blr-fs/Departmental/IAE/TTR-Extension/ext-files/update.xml",
+  "options_page": "options.html"
 }
