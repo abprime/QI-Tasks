@@ -250,6 +250,13 @@ $('#bugId').on('input change',function(){
   ele.attr('href',href+ele.text());
 });
 
+$('#bugId-meta').on('input change',function(){
+  ele = getFrameEle($('#bugId-meta'));
+  href = ele.attr('href');
+  href = href.substring(0,href.indexOf('='))+"=";
+  ele.attr('href',href+ele.text());
+});
+
 $('#stacktrace').on('input change',function(){
   getFrameEle($(this)).html($(this).val().replaceAll('\n','<br>'));
 });

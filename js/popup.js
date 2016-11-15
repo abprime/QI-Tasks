@@ -14,7 +14,8 @@ chrome.storage.local.get('templates', function(results){
     results['templates'].forEach(function(template){
       $('#options').append("<button>File "+template["name"]+" Bug</button>");
     });
-    $('#options').append(" <br/> <button> File MetaField Change Bug</button>");
+    $('#options').append(" <br/> <button>  MetaField Change </button>");
+    
     $("button").click(function(){
       var bugType = $(this)[0].innerText.replace("File","").replace("Bug","").trim();
       //console.log("==> Clicked on: "+bugType);

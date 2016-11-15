@@ -64,8 +64,10 @@ function fill_info(info){
   $('#eta').val(getFormattedDate(etaDate)).change();
    
   
-  title = info.title+'<Agent Name: '+info.agent+'><Bug#:'
-              +info.bugId+'><'+info.errorType+' Error: '+info.errorCode+'><Status: WIP>';
+  //title = info.title+'<Agent Name: '+info.agent+'><Bug#:'
+              //+info.bugId+'><'+info.errorType+' Error: '+info.errorCode+'><Status: WIP>';
+
+  title = '<Agent Name: '+info.agent+'><Sum_info: '+_info.sumInfo+'><MetaData Field changed>';
   
   $('#subject').val(title);
 
@@ -209,6 +211,14 @@ $('#bugId').on('input change',function(){
   href = href.substring(0,href.indexOf('='))+"=";
   ele.attr('href',href+ele.text());
 });
+
+$('#bugId-meta').on('input change',function(){
+  ele = getFrameEle($('#bugId-meta'));
+  href = ele.attr('href');
+  href = href.substring(0,href.indexOf('='))+"=";
+  ele.attr('href',href+ele.text());
+});
+
 
 $('#stacktrace').on('input change',function(){
   getFrameEle($(this)).html($(this).val().replaceAll('\n','<br>'));
