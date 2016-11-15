@@ -115,8 +115,8 @@ function getDynfield(idx){
                           " </div> "+
                           " <div class='col-md-1'> <label class='control-label'><font color='white'>as</font></label><label class='control-label'><a href='#' id='remove-"+idx+"' class='text-danger'><span class='glyphicon glyphicon-remove'></span></a></label></div> ";
 
-            selectList += " <div class='col-md-6'> <label class='control-label'>Old :</label> <input id='fld-old-meta-"+idx+"' name='fld-old-meta-"+idx+"' class='form-control' /> </div> "+
-                          " <div class='col-md-6'> <label class='control-label'>New :</label> <input id='fld-new-meta-"+idx+"' name='fld-new-meta-"+idx+"' class='form-control' /> </div> ";
+            selectList += " <div class='col-md-6'> <label class='control-label'>Old Value :</label> <input id='fld-old-meta-"+idx+"' name='fld-old-meta-"+idx+"' class='form-control' /> </div> "+
+                          " <div class='col-md-6'> <label class='control-label'>New Value :</label> <input id='fld-new-meta-"+idx+"' name='fld-new-meta-"+idx+"' class='form-control' /> </div> ";
 
             selectList += " </div> </div> ";
   return selectList;
@@ -136,7 +136,7 @@ var tableRow =  " <tr style='height:16.5pt' id='fieldname-meta-"+index+"'> "+
 			          
     tableRow += " <tr style='height:16.5pt' id='field-old-meta-"+index+"'> "+
                 " <td width=152 style='width:114.15pt;border:solid windowtext 1.0pt;border-top:none;background:HoneyDew;padding:0cm 5.4pt 0cm 5.4pt;height:16.5pt;' align='right'> "+
-                " <p class=MsoNormal><span style='color:#696969'> Old Name : <o:p></o:p></span></p> </td> "+
+                " <p class=MsoNormal><span style='color:#696969'> Old value : <o:p></o:p></span></p> </td> "+
                 " <td width=331 style='width:248.1pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;background:GhostWhite ;padding:0cm 5.4pt 0cm 5.4pt;height:16.5pt'> "+
                 " <p class=MsoNormal><span id='fld-old-meta-"+index+"' style='color:#1F4E79'><o:p></o:p></span></p> </td> "+
                 " <td width=326 style='width:244.2pt;padding:0cm 0cm 0cm 0cm;height:16.5pt'></td> "+
@@ -144,7 +144,7 @@ var tableRow =  " <tr style='height:16.5pt' id='fieldname-meta-"+index+"'> "+
                 
     tableRow += " <tr style='height:16.5pt' id='field-new-meta-"+index+"'> "+
                 " <td width=152 style='width:114.15pt;border:solid windowtext 1.0pt;border-top:none;background:HoneyDew;padding:0cm 5.4pt 0cm 5.4pt;height:16.5pt' align='right'> "+
-                " <p class=MsoNormal><span style='color:#696969'> New Name : <o:p></o:p></span></p> </td> "+    
+                " <p class=MsoNormal><span style='color:#696969'> New Value : <o:p></o:p></span></p> </td> "+    
                 " <td width=331 style='width:248.1pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;background:GhostWhite;padding:0cm 5.4pt 0cm 5.4pt;height:16.5pt'> "+
                 " <p class=MsoNormal><span id='fld-new-meta-"+index+"' style='color:#1F4E79'><o:p></o:p></span></p> </td> "+
                 " <td width=326 style='width:244.2pt;padding:0cm 0cm 0cm 0cm;height:16.5pt'></td> "+
