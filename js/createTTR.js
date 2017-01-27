@@ -232,8 +232,16 @@ function removeFrameElement(idx, fld){
     });
 }
 
+function selectedValues(array){
+	
+}
+
 $('select').change(function(){
-    getFrameEle($(this)).text($(this).find(':selected').text());
+	var values = "";
+	$(this).find(':selected').each(function(){
+		values += ($(this).text()+",");
+	});
+    getFrameEle($(this)).text(values.replace(/,$/,""));
 });
   
 /**

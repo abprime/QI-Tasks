@@ -68,6 +68,14 @@ form {
 														</div>
 														<div class="form-group">
 															<div class="col-md-12">
+																<label for="notificationType" class="control-label">Notification Type :</label> <select class="form-control" id="notificationType">
+																	<option selected>Ongoing</option>
+																	<option>Informational</option>
+																</select> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
 																<label for="type" class="control-label">TYPE (Info/Alert Cobrands) :</label> <select class="form-control" id="type">
 																	<option selected>Info</option>
 																	<option>Alert</option>
@@ -155,7 +163,25 @@ form {
 														</div>
 														<div class="form-group">
 															<div class="col-md-12">
+																<label for="siteId" class="control-label">Site ID(s):</label> <input id="siteId" class="form-control"> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
 																<label for="sumInfo" class="control-label">SUM INFO(s):</label> <input id="sumInfo" class="form-control"> <span class="help-block"></span>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-12">
+																<label for="containerName" class="control-label">Containers IMPACTED :</label> 
+																<select class="form-control" id="containerName" multiple="multiple">
+																	<option>Bank</option>
+																	<option>Card</option>
+																	<option>Investments</option>
+																	<option>Bill Pay</option>
+																	<option>Loan</option>
+																	<option>Mortgage</option>
+																</select> <span class="help-block"></span>
 															</div>
 														</div>
 														<div class="form-group">
@@ -331,6 +357,9 @@ form {
 	<script type="text/javascript">
 		$(function() {
 			$('#sitenames').multiselect({
+				includeSelectAllOption : true
+			});
+			$('#containerName').multiselect({
 				includeSelectAllOption : true
 			});
 		});
